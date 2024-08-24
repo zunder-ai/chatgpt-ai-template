@@ -7,11 +7,17 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^2.18.4",
+    "@zunderai/ui": "^0.1.5",
+    "nuxt": "^3.12.4",
+    "openai": "^4.56.0",
+    "vue": "latest"
   },
   "devDependencies": {
-    "@nuxt/devtools": "latest",
-    "@nuxt/ui": "^2.18.4",
-    "nuxt": "^3.12.4"
+    "release-it": "^17.6.0"
   }
 }
