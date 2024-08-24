@@ -31,8 +31,6 @@ export default defineEventHandler(async (event) => {
 
   // Return a simulated response
   return {
-    isUser: false,
-    avatar: "AI",
     content: `${responseContent}\n\nYou said: "${message}"`,
   };
 });

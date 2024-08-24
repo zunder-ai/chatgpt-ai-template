@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { defineEventHandler, readBody } from "h3";
+import type { ChatCompletionRequestMessage, CreateChatCompletionRequest } from 'openai';
 
 export default defineEventHandler(async (event) => {
   const {
@@ -8,30 +9,34 @@ export default defineEventHandler(async (event) => {
   } = useRuntimeConfig()
 
   const openai = new OpenAI({ apiKey: openaiApiKey })
+  const body = await readBody(event);
+  console.log("Received body:", body);
+
+  const messages: ChatCompletionRequestMessage[] = [];
+
+  messages.push({
+    role: 'system',
+    content: 'You are a helpful assistant with expertise in technology and programming.'
+  });
+  messages.push({ role: 'user', content: body.message });
 
   try {
-    const { messages } = await readBody(event);
-
-    // Ensure messages array is provided
-    if (!messages || !Array.isArray(messages)) {
-      throw new Error("Invalid messages format");
-    }
-
-    // Call the OpenAI API
     const completion = await openai.chat.completions.create({
       model: openaiModel,
-      messages: messages.map((msg) => ({
-        role: msg.isUser ? "user" : "assistant",
-        content: msg.content,
-      }))
+      messages: messages,
     });
 
-    // Extract the response
-    const aiResponse = completion.choices[0].message.content;
+    console.log("Completion:", completion.choices[0].message.content);
 
-    return { response: aiResponse };
+    return {
+      content: completion.choices[0].message.content,
+    };
   } catch (error) {
-    console.error("Error in chat API:", error);
-    return { error: "An error occurred while processing your request." };
+    console.error('Error calling OpenAI API:', error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Error processing chat request',
+    });
   }
 });
+
