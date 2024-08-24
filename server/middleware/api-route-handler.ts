@@ -7,10 +7,8 @@ export default defineEventHandler((event) => {
     const config = useRuntimeConfig()
     const url = getRequestURL(event)
 
-    console.log("Server middleware called", config.useSimulatedChat, simulatedRoutes.includes(url.pathname), url.pathname)
 
     if (config.useSimulatedChat && simulatedRoutes.includes(url.pathname)) {
-        console.log("Redirecting to", url.pathname)
         const parts = url.pathname.split('/')
         const routeName = parts.pop() // Remove the last part (route name)
         parts.push('test') // Add 'test' directory

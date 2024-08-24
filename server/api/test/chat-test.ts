@@ -17,8 +17,6 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const message = body.message;
 
-  console.log("Message received:", message);
-
   // Simulate a delay (between 1 and 3 seconds)
   const delay = Math.floor(Math.random() * 1000) + 1000;
   await new Promise((resolve) => setTimeout(resolve, delay));
@@ -27,7 +25,6 @@ export default defineEventHandler(async (event) => {
   const responseIndex = Math.floor(Math.random() * simulatedResponses.length);
   const responseContent = simulatedResponses[responseIndex];
 
-  console.log("Response content:", responseContent);
 
   // Return a simulated response
   return {

@@ -23,7 +23,6 @@ const handleSubmit = async (text: string) => {
     avatar: 'U',
     content: text,
   });
-  console.log('Chat messages after user input:', chatMessages.value);
 
   loading.value = true;
 
